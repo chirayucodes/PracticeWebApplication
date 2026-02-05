@@ -18,5 +18,6 @@ namespace PracticeWebApplication.Data
 
         public string? Address { get; set; }
 
+
     }
 }

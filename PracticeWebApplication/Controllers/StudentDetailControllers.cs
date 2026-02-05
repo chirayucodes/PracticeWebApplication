@@ -20,6 +20,13 @@ namespace PracticeWebApplication.Controllers
                             }).ToList();
 
             return View(names);
+
+        }
+
+
+        [HttpGet]
+        public IActionResult Create() {
+            return View();
         }
     }
 }
