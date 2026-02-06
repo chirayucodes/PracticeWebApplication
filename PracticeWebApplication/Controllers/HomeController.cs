@@ -1,6 +1,6 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using PracticeWebApplication.Models;
+using System.Diagnostics;
 
 namespace PracticeWebApplication.Controllers
 {
@@ -21,6 +21,6 @@ namespace PracticeWebApplication.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        
+
     }
 }

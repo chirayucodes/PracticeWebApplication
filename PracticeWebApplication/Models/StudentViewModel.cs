@@ -1,11 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PracticeWebApplication.Data
+namespace PracticeWebApplication.Models
 {
-    public class StudentDetails
+    public class StudentViewModel
     {
-
-        [Key]
         public int ID { get; set; }
 
         public string? StudentName { get; set; }

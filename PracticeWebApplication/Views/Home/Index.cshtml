@@ -2,6 +2,22 @@
     ViewData["Title"] = "Student Details";
 }
 
+
+<div class="landing-container">
+    <div class="landing-box">
+        <h1>Student</h1>
+        <p>
+            A modern full-stack student details management system<br />
+            built with ASP.NET Core MVC.
+        </p>
+
+        <a asp-controller="StudentDetailControllers" asp-action="Index" class="btn btn-primary">
+            View Students
+        </a>
+    </div>
+</div>
+
+
 <style>
     body {
         margin: 0;
@@ -74,16 +90,3 @@
     }
 </style>
 
-<div class="landing-container">
-    <div class="landing-box">
-        <h1>Student</h1>
-        <p>
-            A modern full-stack student details management system<br />
-            built with ASP.NET Core MVC.
-        </p>
-
-        <a asp-controller="StudentDetailControllers" asp-action="Index" class="btn btn-primary">
-            Get Started
-        </a>
-    </div>
-</div>
