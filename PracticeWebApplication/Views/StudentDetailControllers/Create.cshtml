@@ -4,7 +4,9 @@
     <!-- Student Name -->
     <div class="col-md-6">
         <label for="studentName" class="form-label">Student Name</label>
-        <input type="text" class="form-control" id="studentName" name="StudentName">
+        <input asp-for="StudentName" class="form-control" placeholder="Enter Student Name" />
+        <span asp-validation-for="StudentName" class="text-danger small"></span>
+        @* <input type="text" class="form-control" id="studentName" name="StudentName"> *@
     </div>
 
     <!-- Father Name -->

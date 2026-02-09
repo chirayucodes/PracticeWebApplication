@@ -7,17 +7,17 @@ namespace PracticeWebApplication.Controllers
 {
     public class StudentDetailControllers : Controller
     {
-        //private readonly AppDbContext _context;
+        private readonly AppDbContext _context;
 
-        //public StudentDetailControllers(AppDbContext context)
-        //{
-        //    _context = context;
-        //}
+        public StudentDetailControllers(AppDbContext context)
+        {
+            _context = context;
+        }
 
         public IActionResult Index()
         {
             AppDbContext dbContext = new();
-            IEnumerable<StudentViewModel> names = dbContext.StudentDetails
+            IEnumerable<StudentViewModel> names = _context.StudentDetails
                            .Select(s => new StudentViewModel
                            {
                                ID = s.ID,
@@ -38,19 +38,17 @@ namespace PracticeWebApplication.Controllers
             return View();
         }
 
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(StudentViewModel model)
         {
-        
+
             if (!ModelState.IsValid)
             {
-                return View( model);
+                return View(model);
             }
-            AppDbContext dbContext = new();
-            StudentDetails Student= new()
+
+            StudentDetails Student = new()
             {
                 StudentName = model.StudentName,
                 FatherName = model.FatherName,
@@ -58,9 +56,10 @@ namespace PracticeWebApplication.Controllers
                 Gender = model.Gender,
                 Address = model.Address
             };
-            dbContext.StudentDetails
+
+            _context.StudentDetails
                 .Add(Student);
-            dbContext.SaveChanges();
+            _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
         }
