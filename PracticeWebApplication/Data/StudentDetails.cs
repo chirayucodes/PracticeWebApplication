@@ -8,15 +8,15 @@ namespace PracticeWebApplication.Data
         [Key]
         public int ID { get; set; }
 
-        public string? StudentName { get; set; }
+        public required string StudentName { get; set; }
 
-        public string? FatherName { get; set; }
+        public required string FatherName { get; set; }
 
-        public string? MotherName { get; set; }
+        public required string MotherName { get; set; }
 
-        public string? Gender { get; set; }
+        public required string Gender { get; set; }
 
-        public string? Address { get; set; }
+        public required string Address { get; set; }
 
     }
 }
