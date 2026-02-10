@@ -7,11 +7,11 @@ namespace PracticeWebApplication.Controllers
 {
     public sealed class StudentApiController : ControllerBase
     {
-        private readonly AppDbContext? dbContext;
+        private readonly AppDbContext _dbContext;
 
-        public StudentApiController(AppDbContext? dbContext)
+        public StudentApiController(AppDbContext dbContext)
         {
-            this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
 
         }
 
@@ -19,7 +19,7 @@ namespace PracticeWebApplication.Controllers
         [Route("/api/testdbb/students")]
         public IActionResult GetStudents()
         {
-            IList<StudentDetailsDto> List = dbContext.StudentDetails
+            IList<StudentDetailsDto> List = _dbContext.StudentDetails
                 .Select(s => new StudentDetailsDto(
                     s.ID,
                     s.StudentName,
@@ -37,7 +37,7 @@ namespace PracticeWebApplication.Controllers
 
         public IActionResult GetStudentById(int id)
         {
-            StudentDetails? student = dbContext.StudentDetails.Find(id);
+            StudentDetails? student = _dbContext.StudentDetails.Find(id);
             if (student == null)
             {
                 return NotFound();
