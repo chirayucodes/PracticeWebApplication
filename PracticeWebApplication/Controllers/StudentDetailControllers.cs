@@ -57,4 +57,16 @@ public class StudentDetailControllers : Controller
 
         return RedirectToAction(nameof(Index));
     }
-}
+
+    //[HttpPut]
+    //public IActionResult Update( model)
+    //{
+    //    if (!ModelState.IsValid) return View(model);
+    //    StudentDetails Student = new()
+    //    {
+    //        ID = model.ID,
+    //        StudentName = model.StudentName,
+    //        FatherName = model.FatherName,
+    //        MotherName = model.MotherName,
+
+    //    }

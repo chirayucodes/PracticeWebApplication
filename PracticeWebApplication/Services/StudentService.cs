@@ -1,4 +1,5 @@
-﻿using PracticeWebApplication.Data;
+﻿using Microsoft.Identity.Client;
+using PracticeWebApplication.Data;
 using PracticeWebApplication.Dtos;
 using PracticeWebApplication.Models;
 
@@ -88,24 +89,47 @@ public sealed class StudentService
         }
     }
 
-    //public StudentDetails? UpdateStudent(int id, CreateStudentRequest request)
-    //{
-    //    try
-    //    {
-    //        StudentDetails? student = _context.StudentDetails.Find(id);
-    //        if (student == null)
-    //        {
-    //            return null;
-    //        }
-    //        student.StudentName = request.StudentName;
-    //        student.FatherName = request.FatherName;
-    //        student.MotherName = request.MotherName;
-    //        student.Gender = request.Gender;
-    //        student.Address = request.Address;
+    public StudentDetailsDto? UpdateStudent(int id, CreateStudentRequest request)
+    {
+        try
+        {
+            StudentDetails? student = _context.StudentDetails.Find(id);
+            if (student == null)
+            {
+                return null;
+            }
+            student.StudentName = request.StudentName;
+            student.FatherName = request.FatherName;
+            student.MotherName = request.MotherName;
+            student.Gender = request.Gender;
+            student.Address = request.Address;
 
-    //        _context.SaveChanges();
+            _context.SaveChanges();
 
-    //        return new StudentDetailsDto()
-    //    }
-    //}
-}
+            return new StudentDetailsDto(student.ID, student.StudentName, student.FatherName, student.MotherName, student.Gender, student.Address);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while updating a student with {@updateStudent}", request);
+            return null;
+        }
+    }
+
+    public StudentDetailsDto? GetStudentById(int id)
+    {
+        try
+        {
+            StudentDetails? student = _context.StudentDetails.Find(id);
+            if (student == null)
+            {
+                return null;
+            }
+            return new StudentDetailsDto(student.ID, student.StudentName, student.FatherName, student.MotherName, student.Gender,student.Address);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while retrieving a student with ID {StudentId}.", id);
+            return null;
+        }
+    }
+ }
