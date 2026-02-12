@@ -4,19 +4,19 @@
 
     <div class="col-md-6">
         <label asp-for="StudentName" class="form-label"></label>
-        <input asp-for="StudentName" class="form-control" />
+        <input asp-for="StudentName" class="form-control"/>
         <span asp-validation-for="StudentName" class="text-danger"></span>
     </div>
 
     <div class="col-md-6">
         <label asp-for="FatherName" class="form-label"></label>
-        <input asp-for="FatherName" class="form-control" />
+        <input asp-for="FatherName" class="form-control"/>
         <span asp-validation-for="FatherName" class="text-danger"></span>
     </div>
 
     <div class="col-md-6">
         <label asp-for="MotherName" class="form-label"></label>
-        <input asp-for="MotherName" class="form-control" />
+        <input asp-for="MotherName" class="form-control"/>
         <span asp-validation-for="MotherName" class="text-danger"></span>
     </div>
 
@@ -24,12 +24,12 @@
         <label asp-for="Gender" class="form-label d-block"></label>
 
         <div class="form-check form-check-inline">
-            <input asp-for="Gender" class="form-check-input" type="radio" value="M" />
+            <input asp-for="Gender" class="form-check-input" type="radio" value="M"/>
             <label class="form-check-label">Male</label>
         </div>
 
         <div class="form-check form-check-inline">
-            <input asp-for="Gender" class="form-check-input" type="radio" value="F" />
+            <input asp-for="Gender" class="form-check-input" type="radio" value="F"/>
             <label class="form-check-label">Female</label>
         </div>
 
@@ -38,7 +38,7 @@
 
     <div class="col-12">
         <label asp-for="Address" class="form-label"></label>
-        <input asp-for="Address" class="form-control" />
+        <input asp-for="Address" class="form-control"/>
         <span asp-validation-for="Address" class="text-danger"></span>
     </div>
 
@@ -48,5 +48,5 @@
 </form>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial"/>
 }

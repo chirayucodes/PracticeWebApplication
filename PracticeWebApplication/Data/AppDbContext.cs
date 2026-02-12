@@ -1,17 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
-namespace PracticeWebApplication.Data
+
+namespace PracticeWebApplication.Data;
+
+public class AppDbContext : DbContext
 {
-    public class AppDbContext : DbContext
+    public AppDbContext()
     {
-        public AppDbContext()
-        {
-        }
-
-        public AppDbContext(DbContextOptions<AppDbContext> options)
-            : base(options)
-        {
-        }
-
-        public DbSet<StudentDetails> StudentDetails { get; set; }
     }
+
+    public AppDbContext(DbContextOptions<AppDbContext> options)
+        : base(options)
+    {
+    }
+
+    public DbSet<StudentDetails> StudentDetails { get; set; }
 }

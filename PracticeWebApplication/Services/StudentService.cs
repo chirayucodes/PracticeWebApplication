@@ -1,6 +1,6 @@
 ﻿using PracticeWebApplication.Data;
+using PracticeWebApplication.Dtos;
 using PracticeWebApplication.Models;
-
 
 namespace PracticeWebApplication.Services;
 
@@ -14,6 +14,9 @@ public sealed class StudentService
         _context = context ?? throw new ArgumentNullException(nameof(context));
         _logger = logger;
     }
+
+    public object StudentDetails { get; internal set; }
+
     public IEnumerable<StudentViewModel> GetStudents()
     {
         IReadOnlyList<StudentViewModel> students = _context.StudentDetails
@@ -28,6 +31,17 @@ public sealed class StudentService
             }).ToArray();
         return students;
     }
+
+    //public StudentDetailsDto? GetStudentById(int id)
+    //{
+    //    StudentDetails? student = _context.StudentDetails.Find(id);
+    //    if (student == null)
+    //    {
+    //        return null;
+    //    }
+    //    student= _context.StudentDetails.FirstOrDefault();
+    //}
+
 
     public bool CreateStudent(StudentViewModel model)
     {
@@ -45,4 +59,53 @@ public sealed class StudentService
 
         return true;
     }
+
+    public bool CreateStudent(CreateStudentRequest request)
+    {
+        try
+        {
+            var student = _context.StudentDetails.FirstOrDefault(s => s.StudentName == request.StudentName);
+            if (student is not null) throw new Exception("Student with name {StudentName} already exists.");
+            student = new StudentDetails
+            {
+                StudentName = request.StudentName,
+                FatherName = request.FatherName,
+                MotherName = request.MotherName,
+                Gender = request.Gender,
+                Address = request.Address
+            };
+            _context.StudentDetails.Add(student);
+            _context.SaveChanges();
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            //_logger.LogError(ex, "An error occurred while creating a student with {StudentName}.", request.StudentName);
+            //return false;
+            _logger.LogError(ex, "An error occurred while creating a student with {@newStudent}", request);
+            return false;
+        }
+    }
+
+    //public StudentDetails? UpdateStudent(int id, CreateStudentRequest request)
+    //{
+    //    try
+    //    {
+    //        StudentDetails? student = _context.StudentDetails.Find(id);
+    //        if (student == null)
+    //        {
+    //            return null;
+    //        }
+    //        student.StudentName = request.StudentName;
+    //        student.FatherName = request.FatherName;
+    //        student.MotherName = request.MotherName;
+    //        student.Gender = request.Gender;
+    //        student.Address = request.Address;
+
+    //        _context.SaveChanges();
+
+    //        return new StudentDetailsDto()
+    //    }
+    //}
 }
