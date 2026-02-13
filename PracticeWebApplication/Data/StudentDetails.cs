@@ -15,4 +15,6 @@ public class StudentDetails
     public required string Gender { get; set; }
 
     public required string Address { get; set; }
+
+    public bool IsActive { get; set; }
 }

@@ -1,5 +1,4 @@
-﻿using Microsoft.Identity.Client;
-using PracticeWebApplication.Data;
+﻿using PracticeWebApplication.Data;
 using PracticeWebApplication.Dtos;
 using PracticeWebApplication.Models;
 
@@ -28,21 +27,11 @@ public sealed class StudentService
                 FatherName = s.FatherName,
                 MotherName = s.MotherName,
                 Gender = s.Gender,
-                Address = s.Address
+                Address = s.Address,
+                IsActive = s.IsActive
             }).ToArray();
         return students;
     }
-
-    //public StudentDetailsDto? GetStudentById(int id)
-    //{
-    //    StudentDetails? student = _context.StudentDetails.Find(id);
-    //    if (student == null)
-    //    {
-    //        return null;
-    //    }
-    //    student= _context.StudentDetails.FirstOrDefault();
-    //}
-
 
     public bool CreateStudent(StudentViewModel model)
     {
@@ -52,7 +41,8 @@ public sealed class StudentService
             FatherName = model.FatherName,
             MotherName = model.MotherName,
             Gender = model.Gender,
-            Address = model.Address
+            Address = model.Address,
+            IsActive = model.IsActive
         };
 
         _context.StudentDetails.Add(student);
@@ -61,7 +51,7 @@ public sealed class StudentService
         return true;
     }
 
-    public bool CreateStudent(CreateStudentRequest request)
+    public StudentDetailsDto? CreateStudent(CreateStudentRequest request)
     {
         try
         {
@@ -73,19 +63,26 @@ public sealed class StudentService
                 FatherName = request.FatherName,
                 MotherName = request.MotherName,
                 Gender = request.Gender,
-                Address = request.Address
+                Address = request.Address,
+                IsActive = request.IsActive
             };
             _context.StudentDetails.Add(student);
             _context.SaveChanges();
 
-            return true;
+            return new StudentDetailsDto(
+                student.ID,
+                student.StudentName,
+                student.FatherName,
+                student.MotherName,
+                student.Gender,
+                student.Address,
+                student.IsActive
+            );
         }
         catch (Exception ex)
         {
-            //_logger.LogError(ex, "An error occurred while creating a student with {StudentName}.", request.StudentName);
-            //return false;
             _logger.LogError(ex, "An error occurred while creating a student with {@newStudent}", request);
-            return false;
+            return null;
         }
     }
 
@@ -93,20 +90,25 @@ public sealed class StudentService
     {
         try
         {
-            StudentDetails? student = _context.StudentDetails.Find(id);
-            if (student == null)
-            {
-                return null;
-            }
+            var student = _context.StudentDetails.Find(id);
+            if (student is null) return null;
+
+            var studentNameExists = _context.StudentDetails
+                .Any(s => s.StudentName == request.StudentName && s.ID != id);
+
+            if (studentNameExists) return null;
+
             student.StudentName = request.StudentName;
             student.FatherName = request.FatherName;
             student.MotherName = request.MotherName;
             student.Gender = request.Gender;
             student.Address = request.Address;
+            student.IsActive = request.IsActive;
 
             _context.SaveChanges();
 
-            return new StudentDetailsDto(student.ID, student.StudentName, student.FatherName, student.MotherName, student.Gender, student.Address);
+            return new StudentDetailsDto(student.ID, student.StudentName, student.FatherName, student.MotherName,
+                student.Gender, student.Address, student.IsActive);
         }
         catch (Exception ex)
         {
@@ -119,12 +121,10 @@ public sealed class StudentService
     {
         try
         {
-            StudentDetails? student = _context.StudentDetails.Find(id);
-            if (student == null)
-            {
-                return null;
-            }
-            return new StudentDetailsDto(student.ID, student.StudentName, student.FatherName, student.MotherName, student.Gender,student.Address);
+            var student = _context.StudentDetails.Find(id);
+            if (student == null) return null;
+            return new StudentDetailsDto(student.ID, student.StudentName, student.FatherName, student.MotherName,
+                student.Gender, student.Address, student.IsActive);
         }
         catch (Exception ex)
         {
@@ -132,4 +132,4 @@ public sealed class StudentService
             return null;
         }
     }
- }
+}

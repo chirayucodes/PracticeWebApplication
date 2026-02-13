@@ -26,7 +26,8 @@ public sealed class StudentApiController : ControllerBase
                 s.FatherName,
                 s.MotherName,
                 s.Gender,
-                s.Address
+                s.Address,
+                s.IsActive
             )).ToList();
         return Ok(List);
     }
@@ -39,13 +40,15 @@ public sealed class StudentApiController : ControllerBase
             .GetStudents()
             .FirstOrDefault(s => s.ID == id);
         if (student == null) return NotFound();
-        StudentDetailsDto studentDto = new(
+        StudentDetailsDto studentDto = new
+        (
             student.ID,
             student.StudentName,
             student.FatherName,
             student.MotherName,
             student.Gender,
-            student.Address
+            student.Address,
+            student.IsActive
         );
         return Ok(studentDto);
     }
@@ -54,8 +57,21 @@ public sealed class StudentApiController : ControllerBase
     [Route("")]
     public IActionResult CreateStudent([FromBody] CreateStudentRequest request)
     {
+        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+        var studentDetailsDto = _StudentService.CreateStudent(request);
+        return studentDetailsDto is null
+            ? Problem("There was some problem, Check log for more details ")
+            : Ok(studentDetailsDto);
+    }
+
+
+    [HttpPut]
+    [Route("{id}")]
+    public IActionResult UpdateStudent([FromBody] CreateStudentRequest request, int id)
+    {
         if (!ModelState.IsValid) return BadRequest(ModelState);
-        var result = _StudentService.CreateStudent(request);
-        return Ok(result);
+
+        var result = _StudentService.UpdateStudent(id, request);
+        return result is null ? NotFound() : Ok(result);
     }
 }

@@ -7,4 +7,5 @@ public sealed class CreateStudentRequest
     public required string MotherName { get; init; }
     public required string Gender { get; init; }
     public required string Address { get; init; }
+    public required bool IsActive { get; init; }
 }

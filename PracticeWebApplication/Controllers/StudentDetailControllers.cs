@@ -24,7 +24,8 @@ public class StudentDetailControllers : Controller
                 FatherName = s.FatherName,
                 MotherName = s.MotherName,
                 Gender = s.Gender,
-                Address = s.Address
+                Address = s.Address,
+                IsActive = s.IsActive
             }).ToList();
         return View(names);
     }
@@ -48,7 +49,8 @@ public class StudentDetailControllers : Controller
             FatherName = model.FatherName,
             MotherName = model.MotherName,
             Gender = model.Gender,
-            Address = model.Address
+            Address = model.Address,
+            IsActive = model.IsActive
         };
 
         _context.StudentDetails
@@ -57,16 +59,4 @@ public class StudentDetailControllers : Controller
 
         return RedirectToAction(nameof(Index));
     }
-
-    //[HttpPut]
-    //public IActionResult Update( model)
-    //{
-    //    if (!ModelState.IsValid) return View(model);
-    //    StudentDetails Student = new()
-    //    {
-    //        ID = model.ID,
-    //        StudentName = model.StudentName,
-    //        FatherName = model.FatherName,
-    //        MotherName = model.MotherName,
-
-    //    }
+}

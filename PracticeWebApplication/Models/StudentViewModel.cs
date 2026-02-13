@@ -13,4 +13,6 @@ public class StudentViewModel
     public required string Gender { get; set; }
 
     public required string Address { get; set; }
+
+    public required bool IsActive { get; set; } = true;
 }

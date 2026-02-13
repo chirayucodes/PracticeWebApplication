@@ -6,7 +6,8 @@ public sealed class StudentDetailsDto(
     string FatherName,
     string MotherName,
     string Gender,
-    string Address)
+    string Address,
+    bool IsActive)
 {
     public int ID { get; } = ID;
     public string StudentName { get; } = StudentName;
@@ -14,4 +15,5 @@ public sealed class StudentDetailsDto(
     public string MotherName { get; } = MotherName;
     public string Gender { get; } = Gender;
     public string Address { get; } = Address;
+    public bool IsActive { get; } = IsActive;
 }
