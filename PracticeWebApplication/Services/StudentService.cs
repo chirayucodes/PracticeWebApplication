@@ -1,4 +1,5 @@
-﻿using PracticeWebApplication.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using PracticeWebApplication.Data;
 using PracticeWebApplication.Dtos;
 using PracticeWebApplication.Models;
 
@@ -132,4 +133,51 @@ public sealed class StudentService
             return null;
         }
     }
+
+    public StudentDetailsDto? DeleteStudent(int id)
+        {
+            try
+            {
+                var student = _context.StudentDetails.FirstOrDefault(s => s.ID == id);
+
+                if (student is null) return null;
+
+                throw new ConflictException("Student with ID {StudentId} not found.");
+
+            _context.StudentDetails.Remove(student);
+            _context.SaveChanges();
+
+                return new StudentDetailsDto(
+                    student.ID, 
+                    student.StudentName,
+                    student.FatherName,
+                    student.MotherName,
+                    student.Gender,
+                    student.Address,
+                    student.IsActive);
+        }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while deleting a student with ID {StudentId}.", id);
+                return false;
+            }
+        catch (ConflictException ex)
+        {
+            _logger.LogError(ex, "Error while creating a state with StudentID {StudentID}. Some conflicts occured.",
+                StudentID);
+        }
+        catch (DbUpdateException ex)
+        {
+            _logger.LogError(ex,
+                "Database error while deleting student with ID {StudentID}", id);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Unexpected error while deleting student with ID {StudentID}", id);
+        }
+
+        return null;
+
+    }
+
 }

@@ -74,4 +74,16 @@ public sealed class StudentApiController : ControllerBase
         var result = _StudentService.UpdateStudent(id, request);
         return result is null ? NotFound() : Ok(result);
     }
+    [HttpDelete]
+    [Route("{id}")]
+    public IActionResult DeleteStudent(int id)
+    {
+        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+        StudentDetailsDto? result = _StudentService.DeleteStudent(id);
+        return DeleteStudent(id) is null
+            ? Problem("There was some problem, Check log for more details ")
+            :Ok(DeleteStudent(id));
+
+    }
 }
