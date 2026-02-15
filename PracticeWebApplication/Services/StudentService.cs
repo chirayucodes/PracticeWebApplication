@@ -135,49 +135,40 @@ public sealed class StudentService
     }
 
     public StudentDetailsDto? DeleteStudent(int id)
+    {
+        try
         {
-            try
-            {
-                var student = _context.StudentDetails.FirstOrDefault(s => s.ID == id);
+            var student = _context.StudentDetails.FirstOrDefault(s => s.ID == id);
 
-                if (student is null) return null;
-
+            if (student is null)
                 throw new ConflictException("Student with ID {StudentId} not found.");
+
 
             _context.StudentDetails.Remove(student);
             _context.SaveChanges();
 
-                return new StudentDetailsDto(
-                    student.ID, 
-                    student.StudentName,
-                    student.FatherName,
-                    student.MotherName,
-                    student.Gender,
-                    student.Address,
-                    student.IsActive);
+            return new StudentDetailsDto
+                (student.ID,
+                student.StudentName,
+                student.FatherName,
+                student.MotherName,
+                student.Gender,
+                student.Address,
+                student.IsActive);
         }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while deleting a student with ID {StudentId}.", id);
-                return false;
-            }
         catch (ConflictException ex)
         {
-            _logger.LogError(ex, "Error while creating a state with StudentID {StudentID}. Some conflicts occured.",
-                StudentID);
+            _logger.LogError(ex, "A conflict occurred while deleting a student with ID {StudentId}.", id);
         }
         catch (DbUpdateException ex)
         {
-            _logger.LogError(ex,
-                "Database error while deleting student with ID {StudentID}", id);
+            _logger.LogError(ex, "Database error occurred while deleting a student with ID {StudentId}.", id);
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            _logger.LogError(e, "Unexpected error while deleting student with ID {StudentID}", id);
+            _logger.LogError(ex, "Unexpected error occurred while deleting a student with ID {StudentId}.", id);
         }
-
         return null;
 
     }
-
 }

@@ -74,6 +74,9 @@ public sealed class StudentApiController : ControllerBase
         var result = _StudentService.UpdateStudent(id, request);
         return result is null ? NotFound() : Ok(result);
     }
+
+
+
     [HttpDelete]
     [Route("{id}")]
     public IActionResult DeleteStudent(int id)
