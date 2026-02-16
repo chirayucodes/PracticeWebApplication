@@ -84,9 +84,23 @@ public sealed class StudentApiController : ControllerBase
         if (!ModelState.IsValid) return ValidationProblem(ModelState);
 
         StudentDetailsDto? result = _StudentService.DeleteStudent(id);
-        return DeleteStudent(id) is null
+        return result is null
             ? Problem("There was some problem, Check log for more details ")
-            :Ok(DeleteStudent(id));
+            : Ok(result);
 
     }
+
+    [HttpPatch] // to change student status in Isctive (true or false)
+    [Route ("{id}")]
+
+    public IActionResult PartialUpdate( [FromBody] PatchStudentRequest request, int id)
+    {
+        if (!ModelState.IsValid) return ValidationProblem(ModelState);
+
+        StudentDetailsDto? PartialUpdate = _StudentService.PatchStudent(id, request);
+        return PartialUpdate is null
+            ? Problem("There was some problem, Check log for more details ")
+            : Ok(PartialUpdate);
+    }
+
 }

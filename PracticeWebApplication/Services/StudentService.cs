@@ -171,4 +171,46 @@ public sealed class StudentService
         return null;
 
     }
+
+    public StudentDetailsDto? PatchStudent(int id, PatchStudentRequest request)
+    {
+        try
+        {
+            var student = _context.StudentDetails.Find(id);
+
+            if (student is null)
+            throw new ConflictException("Student with ID {StudentId} not found. Enter valid StudentID.");
+
+            _context.Entry(student).CurrentValues.SetValues(request);
+            _context.SaveChanges();
+            return new StudentDetailsDto(
+                student.ID,
+                student.StudentName,
+                student.FatherName,
+                student.MotherName,
+                student.Gender,
+                student.Address,
+                student.IsActive);
+        }
+
+        //catch (ConflictException ex)
+        //{
+        //    _logger.LogError(ex, "A conflict occurred while patching a student with ID {StudentId}.", id);
+        //}
+
+        catch (DbUpdateException ex)
+        {
+            _logger.LogError(ex, "Database error occurred while patching a student with ID {StudentId}.", id);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Unexpected error occurred while patching a student with ID {StudentId}.", id);
+        }
+        return null;
+
+
+
+
+    }
+
 }
