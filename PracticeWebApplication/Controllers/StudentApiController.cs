@@ -90,10 +90,10 @@ public sealed class StudentApiController : ControllerBase
 
     }
 
-    [HttpPatch] // to change student status in Isctive (true or false)
-    [Route ("{id}")]
+    [HttpPatch] // to change student status in IsActive (true or false)
+    [Route("{id}")]
 
-    public IActionResult PartialUpdate( [FromBody] PatchStudentRequest request, int id)
+    public IActionResult PartialUpdate([FromBody] PatchStudentRequest request, int id)
     {
         if (!ModelState.IsValid) return ValidationProblem(ModelState);
 

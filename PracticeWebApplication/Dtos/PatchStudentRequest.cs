@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PracticeWebApplication.Dtos
+namespace PracticeWebApplication.Dtos;
+
+public class PatchStudentRequest
 {
-    public class PatchStudentRequest
-    {
-       [Required]  public required bool IsActive { get; init; }
-    }
+    [Required] public required bool IsActive { get; init; }
 }

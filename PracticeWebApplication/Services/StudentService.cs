@@ -148,7 +148,7 @@ public sealed class StudentService
             _context.SaveChanges();
 
             return new StudentDetailsDto
-                (student.ID,
+            (student.ID,
                 student.StudentName,
                 student.FatherName,
                 student.MotherName,
@@ -168,8 +168,8 @@ public sealed class StudentService
         {
             _logger.LogError(ex, "Unexpected error occurred while deleting a student with ID {StudentId}.", id);
         }
-        return null;
 
+        return null;
     }
 
     public StudentDetailsDto? PatchStudent(int id, PatchStudentRequest request)
@@ -179,7 +179,7 @@ public sealed class StudentService
             var student = _context.StudentDetails.Find(id);
 
             if (student is null)
-            throw new ConflictException("Student with ID {StudentId} not found. Enter valid StudentID.");
+                throw new ConflictException("Student with ID {StudentId} not found. Enter valid StudentID.");
 
             _context.Entry(student).CurrentValues.SetValues(request);
             _context.SaveChanges();
@@ -206,11 +206,7 @@ public sealed class StudentService
         {
             _logger.LogError(ex, "Unexpected error occurred while patching a student with ID {StudentId}.", id);
         }
+
         return null;
-
-
-
-
     }
-
 }
