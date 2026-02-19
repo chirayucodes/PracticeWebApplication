@@ -198,6 +198,10 @@ public sealed class StudentService
         //    _logger.LogError(ex, "A conflict occurred while patching a student with ID {StudentId}.", id);
         //}
 
+
+
+
+
         catch (DbUpdateException ex)
         {
             _logger.LogError(ex, "Database error occurred while patching a student with ID {StudentId}.", id);
